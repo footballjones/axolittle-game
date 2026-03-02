@@ -1,0 +1,12 @@
+{
+  "name": "axolittle",
+  "version": "0.1.0",
+  "description": "Axolittle — Tamagotchi-style axolotl virtual pet game",
+  "scripts": {
+    "dev": "npx serve . -p 3000 -s",
+    "start": "npx serve . -p 3000 -s"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
