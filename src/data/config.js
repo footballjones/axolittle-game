@@ -123,7 +123,7 @@ export const TREATMENTS = {
   bloodworms: { restores: 'hunger', amount: 50, bubbleCost: 20 },
   tankCleaner: { restores: 'cleanliness', amount: 50, bubbleCost: 20 },
   playToy: { restores: 'happiness', amount: 50, bubbleCost: 20 },
-  waterTreatment: { restores: 'waterQuality', amount: 50, bubbleCost: 20 },
+  waterTreatment: { restores: 'waterQuality', amount: 50, opalCost: 30 },
   miracleTreatment: { restores: 'all', amount: 30, opalCost: 25 },
 };
 

@@ -84,6 +84,9 @@ function createDefaultState() {
     // Nursery
     nursery: { egg: null },
 
+    // Water change lockout (minigames blocked for 1hr)
+    waterChangeUntil: 0,
+
     // Stats tracking
     totalMiniGamesPlayed: 0,
     totalCareActions: 0,

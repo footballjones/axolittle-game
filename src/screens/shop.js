@@ -81,7 +81,7 @@ export function renderShop(container) {
           <div class="item-icon">💧</div>
           <div class="item-name">Water Treatment</div>
           <div class="item-desc">Restores Water Quality</div>
-          <div class="item-cost">20 💧</div>
+          <div class="item-cost">30 🔮</div>
         </div>
         <div class="shop-item" data-item="miracleTreatment">
           <div class="item-icon">✨</div>

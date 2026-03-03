@@ -96,7 +96,7 @@ export function renderAquarium(container) {
           <span class="stat-val">${Math.round(wb.cleanliness)}</span>
         </div>
         <div class="stat-row">
-          <span class="stat-label">💧 Water</span>
+          <span class="stat-label">💧 Water Quality</span>
           <div class="stat-bar"><div class="stat-fill water" style="width:${wb.waterQuality}%"></div></div>
           <span class="stat-val">${Math.round(wb.waterQuality)}</span>
         </div>
@@ -105,7 +105,7 @@ export function renderAquarium(container) {
       <div class="care-buttons">
         <button class="care-btn" data-action="feed">🪱 Feed<br><small>20💧</small></button>
         <button class="care-btn ${cleanToolActive ? 'care-btn-active' : ''}" data-action="clean">🧹 Clean</button>
-        <button class="care-btn" data-action="waterChange">💧 Water</button>
+        <button class="care-btn" data-action="waterChange">💧 Water Change</button>
         <button class="care-btn" data-action="playToy">🎾 Play<br><small>10💧</small></button>
       </div>
 
@@ -135,12 +135,24 @@ export function renderAquarium(container) {
         return;
       }
 
+      // Water change confirmation + 1hr lockout
+      if (action === 'waterChange') {
+        // Check if water change is already in progress
+        if (gameState.data.waterChangeUntil && Date.now() < gameState.data.waterChangeUntil) {
+          const minsLeft = Math.ceil((gameState.data.waterChangeUntil - Date.now()) / 60000);
+          showToast(container, `Water change in progress — ${minsLeft} min left`);
+          return;
+        }
+        showWaterChangeConfirm(container);
+        return;
+      }
+
       // Normal care action
       const result = performCare(action);
       if (!result.success) {
         showToast(container, result.reason);
       } else {
-        const actionNames = { feed: 'Fed bloodworms', waterChange: 'Water changed', playToy: 'Played' };
+        const actionNames = { feed: 'Fed bloodworms', playToy: 'Played' };
         showToast(container, `${actionNames[action] || action} done!`);
         renderAquarium(container);
       }
@@ -234,6 +246,58 @@ function renderShrimp(count) {
     shrimp.push(`<div class="tank-shrimp" style="left:${x}%;top:${y}%">🦐</div>`);
   }
   return shrimp.join('');
+}
+
+function showWaterChangeConfirm(container) {
+  // Remove existing dialog if present
+  const existing = container.querySelector('.water-confirm-overlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'water-confirm-overlay';
+  overlay.style.cssText = `
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+  `;
+  overlay.innerHTML = `
+    <div style="
+      background: #1a2a3a; border-radius: 14px; padding: 24px; max-width: 300px;
+      text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.5); color: #eee;
+    ">
+      <h3 style="margin: 0 0 12px; font-size: 18px;">💧 Water Change</h3>
+      <p style="margin: 0 0 16px; font-size: 14px; color: #aaa; line-height: 1.4;">
+        Are you sure you want to do a water change?<br>
+        <strong style="color: #ef9a9a;">Mini games will be unavailable for 1 hour</strong>
+        while the water is changed.
+      </p>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="wc-cancel" style="
+          padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+          background: transparent; color: #aaa; cursor: pointer; font-size: 14px;
+        ">Cancel</button>
+        <button id="wc-confirm" style="
+          padding: 10px 20px; border-radius: 8px; border: none;
+          background: #4fc3f7; color: #111; cursor: pointer; font-weight: bold; font-size: 14px;
+        ">Change Water</button>
+      </div>
+    </div>
+  `;
+  container.appendChild(overlay);
+
+  overlay.querySelector('#wc-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#wc-confirm').addEventListener('click', () => {
+    overlay.remove();
+    const result = performCare('waterChange');
+    if (!result.success) {
+      showToast(container, result.reason);
+    } else {
+      // Set 1-hour lockout
+      gameState.data.waterChangeUntil = Date.now() + 60 * 60 * 1000;
+      gameState.save();
+      showToast(container, 'Water change started! 1 hour until complete.');
+      renderAquarium(container);
+    }
+  });
 }
 
 function showToast(container, msg) {
