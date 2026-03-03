@@ -103,7 +103,7 @@ export function renderAquarium(container) {
       </div>
 
       <div class="care-buttons">
-        <button class="care-btn" data-action="feed">🪱 Feed<br><small>5💧</small></button>
+        <button class="care-btn" data-action="feed">🪱 Feed<br><small>20💧</small></button>
         <button class="care-btn ${cleanToolActive ? 'care-btn-active' : ''}" data-action="clean">🧹 Clean</button>
         <button class="care-btn" data-action="waterChange">💧 Water</button>
         <button class="care-btn" data-action="playToy">🎾 Play<br><small>10💧</small></button>

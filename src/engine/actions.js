@@ -135,8 +135,9 @@ export function completeMiniGame(statKey, tier = 'normal') {
   // Bubbles
   state.bubbles += rewards.bubbles;
 
-  // Opal chance
-  if (rewards.opalChance && Math.random() < rewards.opalChance) {
+  // Opal chance (single roll used for both state and return)
+  const opalDrop = rewards.opalChance ? Math.random() < rewards.opalChance : false;
+  if (opalDrop) {
     state.opals += 5;
     console.log('[Actions] Opal drop!');
   }
@@ -155,7 +156,7 @@ export function completeMiniGame(statKey, tier = 'normal') {
   return {
     statGain: effectiveGain,
     bubbles: rewards.bubbles,
-    opalDrop: rewards.opalChance ? Math.random() < rewards.opalChance : false,
+    opalDrop,
   };
 }
 

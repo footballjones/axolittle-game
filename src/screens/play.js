@@ -6,6 +6,8 @@ export function renderPlay(container) {
   container.innerHTML = `
     <div class="play-screen">
       <h2>🎮 Mini Games</h2>
+
+      <h3 class="section-header">Solo</h3>
       <div class="game-grid">
         <button class="game-card" data-game="flappy">
           <div class="game-icon">🪝</div>
@@ -31,6 +33,20 @@ export function renderPlay(container) {
           <div class="game-icon">⛏️</div>
           <div class="game-name">Treasure Hunt</div>
           <div class="game-stat">💧 Bubbles + 🔮 Opals</div>
+        </button>
+      </div>
+
+      <h3 class="section-header">Multiplayer</h3>
+      <div class="game-grid">
+        <button class="game-card" data-game="fishing">
+          <div class="game-icon">🎣</div>
+          <div class="game-name">Fishing</div>
+          <div class="game-stat">💧 Bubbles</div>
+        </button>
+        <button class="game-card" data-game="arena">
+          <div class="game-icon">💦</div>
+          <div class="game-name">Arena Splash</div>
+          <div class="game-stat">💧 Bubbles</div>
         </button>
       </div>
 

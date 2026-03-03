@@ -463,24 +463,29 @@ export function renderTreasure(container) {
     else moveAxo(1);
   });
 
-  // Keyboard
-  document.addEventListener('keydown', (e) => {
+  // Keyboard (named handler so we can remove on exit)
+  function handleKeydown(e) {
     if (!running) return;
     if (e.key === 'ArrowLeft' || e.key === 'a') moveAxo(-1);
     if (e.key === 'ArrowRight' || e.key === 'd') moveAxo(1);
-  });
+  }
+  document.addEventListener('keydown', handleKeydown);
+
+  function cleanup() {
+    running = false;
+    if (animFrame) cancelAnimationFrame(animFrame);
+    document.removeEventListener('keydown', handleKeydown);
+  }
 
   document.getElementById('treasure-start').addEventListener('click', startGame);
 
   container.querySelector('.back-btn').addEventListener('click', () => {
-    running = false;
-    if (animFrame) cancelAnimationFrame(animFrame);
+    cleanup();
     window.dispatchEvent(new CustomEvent('navigate', { detail: 'play' }));
   });
   container.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      running = false;
-      if (animFrame) cancelAnimationFrame(animFrame);
+      cleanup();
       window.dispatchEvent(new CustomEvent('navigate', { detail: btn.dataset.screen }));
     });
   });

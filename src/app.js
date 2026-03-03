@@ -14,6 +14,8 @@ import { renderKeepey } from './minigames/keepey.js';
 import { renderMath } from './minigames/math.js';
 import { renderStacker } from './minigames/stacker.js';
 import { renderTreasure } from './minigames/treasure.js';
+import { renderFishing } from './minigames/fishing.js';
+import { renderArena } from './minigames/arena.js';
 
 const appContainer = document.getElementById('app');
 let currentScreen = 'aquarium';
@@ -47,6 +49,12 @@ function navigate(screen) {
       break;
     case 'minigame-treasure':
       renderTreasure(appContainer);
+      break;
+    case 'minigame-fishing':
+      renderFishing(appContainer);
+      break;
+    case 'minigame-arena':
+      renderArena(appContainer);
       break;
     default:
       renderAquarium(appContainer);

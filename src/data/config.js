@@ -112,7 +112,7 @@ export const NEGLECT_THRESHOLDS = {
 
 // --- Care actions ---
 export const CARE_ACTIONS = {
-  feed: { restores: 'hunger', amount: 30, bubbleCost: 5 },
+  feed: { restores: 'hunger', amount: 10, bubbleCost: 20 },
   clean: { restores: 'cleanliness', amount: 0, bubbleCost: 0, toolMode: true },
   waterChange: { restores: 'waterQuality', amount: 35, bubbleCost: 0 },
   playToy: { restores: 'happiness', amount: 20, bubbleCost: 10 },
