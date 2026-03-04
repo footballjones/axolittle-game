@@ -16,6 +16,8 @@ import { renderStacker } from './minigames/stacker.js';
 import { renderTreasure } from './minigames/treasure.js';
 import { renderFishing } from './minigames/fishing.js';
 import { renderArena } from './minigames/arena.js';
+import { renderGotchaLast } from './minigames/gotchaLast.js';
+import { renderCoralCode } from './minigames/coralCode.js';
 
 const appContainer = document.getElementById('app');
 let currentScreen = 'aquarium';
@@ -55,6 +57,12 @@ function navigate(screen) {
       break;
     case 'minigame-arena':
       renderArena(appContainer);
+      break;
+    case 'minigame-gotcha':
+      renderGotchaLast(appContainer);
+      break;
+    case 'minigame-coralcode':
+      renderCoralCode(appContainer);
       break;
     default:
       renderAquarium(appContainer);

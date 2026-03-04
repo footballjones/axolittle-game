@@ -555,7 +555,8 @@ body {
 
 #flappy-canvas,
 #fishing-canvas,
-#arena-canvas {
+#arena-canvas,
+#gotcha-canvas {
   flex: 1;
   width: 100%;
   max-width: 420px;
@@ -853,6 +854,197 @@ body {
 .debug-row button:hover {
   background: var(--accent-blue);
   color: #111;
+}
+
+/* ---- Coral Code ---- */
+.coral-code-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.coral-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.coral-difficulty-badge {
+  font-size: 12px;
+  color: var(--accent-purple);
+  background: rgba(179, 136, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.coral-current-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.coral-slot {
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  padding: 12px 4px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.coral-slot span {
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.coral-slot:active {
+  border-color: var(--accent-purple);
+  transform: scale(0.95);
+}
+
+.coral-palette {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.coral-token {
+  background: var(--bg-card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: var(--text-primary);
+  padding: 8px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.coral-token span {
+  font-size: 9px;
+  color: var(--text-secondary);
+}
+
+.coral-token.selected {
+  border-color: var(--accent-purple);
+  background: rgba(179, 136, 255, 0.15);
+  box-shadow: 0 0 8px rgba(179, 136, 255, 0.3);
+}
+
+.coral-token:active {
+  transform: scale(0.95);
+}
+
+.coral-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.coral-status-text {
+  font-size: 14px;
+  color: var(--accent-blue);
+  font-weight: 600;
+  min-height: 20px;
+  text-align: center;
+}
+
+.coral-history {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coral-history-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.coral-history-guess {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.coral-chip {
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border-radius: 6px;
+}
+
+.coral-history-clues {
+  display: flex;
+  gap: 3px;
+}
+
+.coral-clue {
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coral-difficulty-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.difficulty-btn {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.difficulty-btn.selected {
+  background: var(--accent-purple);
+  color: #111;
+  border-color: var(--accent-purple);
+}
+
+.coral-difficulty-description {
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 /* ---- Responsive ---- */

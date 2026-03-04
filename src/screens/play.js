@@ -52,6 +52,11 @@ export function renderPlay(container) {
           <div class="game-name">Treasure Hunt</div>
           <div class="game-stat">💧 Bubbles + 🔮 Opals</div>
         </button>
+        <button class="game-card ${waterChanging ? 'disabled' : ''}" data-game="coralcode">
+          <div class="game-icon">🪸</div>
+          <div class="game-name">Coral Code</div>
+          <div class="game-stat">🧠 Intellect</div>
+        </button>
       </div>
 
       <h3 class="section-header">Multiplayer</h3>
@@ -64,6 +69,11 @@ export function renderPlay(container) {
         <button class="game-card ${waterChanging ? 'disabled' : ''}" data-game="arena">
           <div class="game-icon">💦</div>
           <div class="game-name">Arena Splash</div>
+          <div class="game-stat">💧 Bubbles</div>
+        </button>
+        <button class="game-card ${waterChanging ? 'disabled' : ''}" data-game="gotcha">
+          <div class="game-icon">🦷</div>
+          <div class="game-name">Gotcha Last</div>
           <div class="game-stat">💧 Bubbles</div>
         </button>
       </div>

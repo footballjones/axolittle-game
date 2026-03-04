@@ -240,7 +240,8 @@ export function renderFishing(container) {
   }
 
   // ---- Bot update ----
-  const BOT_CATCH_RATES = { minnow: 0.90, perch: 0.68, bass: 0.45, catfish: 0.15 };
+  // Bot catch rates (30% boosted)
+  const BOT_CATCH_RATES = { minnow: 1.0, perch: 0.88, bass: 0.59, catfish: 0.20 };
 
   function botTryCatch(now) {
     for (const f of fish) {
@@ -250,7 +251,7 @@ export function renderFishing(container) {
           f.caught = true;
           bHooked = f;
           bHookTime = now;
-          bReelDelay = 300 + Math.random() * 1200;
+          bReelDelay = 210 + Math.random() * 840;
           bState = 'BOT_HOOKED';
           return true;
         }
@@ -270,7 +271,7 @@ export function renderFishing(container) {
         break;
 
       case 'BOT_CASTING':
-        bLineY = Math.min(bTargetDepth, bLineY + LINE_DESCEND_BASE * 1.4);
+        bLineY = Math.min(bTargetDepth, bLineY + LINE_DESCEND_BASE * 1.82);
         // Actively scan for fish while descending
         if (bLineY > WATERLINE_Y) botTryCatch(now);
         if (bState === 'BOT_HOOKED') break; // caught one
@@ -296,7 +297,7 @@ export function renderFishing(container) {
             bHooked = null;
           }
           bState = 'BOT_IDLE';
-          bNextCast = now + 1200 + Math.random() * 1400;
+          bNextCast = now + 840 + Math.random() * 980;
         }
         break;
     }
