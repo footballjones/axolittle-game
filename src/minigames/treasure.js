@@ -125,21 +125,34 @@ export function renderTreasure(container) {
 
     for (let i = 0; i < 500; i++) {
       const y = -i * 30;
-      // Walls meander — drift increases slightly with depth
-      const drift = Math.min(1.0, i / 400); // 0→1 over 400 segments
-      leftWall += (rng() - 0.45) * (18 + drift * 8);
-      rightWall += (rng() - 0.55) * (18 + drift * 8);
 
-      // Progressive narrowing: max width shrinks with depth
-      const maxWidth = Math.max(MIN_GAP, (CANVAS_W - 80) - i * 0.25);
+      // First 80 segments: cave stays wide and friendly (no narrowing)
+      // After that, gentle drift and narrowing gradually increase
+      const narrowingProgress = Math.max(0, i - 80) / 420; // 0→1 over segments 80-500
+
+      // Walls meander — drift increases very slowly with depth
+      const driftScale = 14 + narrowingProgress * 6; // 14→20 variance (was 18→26)
+      leftWall += (rng() - 0.48) * driftScale;   // nearly centered bias (was 0.45)
+      rightWall += (rng() - 0.52) * driftScale;   // nearly centered bias (was 0.55)
+
+      // Progressive narrowing: max width shrinks SLOWLY with depth
+      // Doesn't start narrowing until segment 80, then very gradual
+      const narrowAmount = Math.max(0, (i - 80) * 0.1); // 0.1px per segment after seg 80 (was 0.25 from seg 0)
+      const maxWidth = Math.max(MIN_GAP + 40, (CANVAS_W - 80) - narrowAmount); // floor 40px above MIN_GAP
       const center = (leftWall + rightWall) / 2;
+
+      // Soft-clamp walls to maxWidth (keeps passage from exceeding maxWidth)
+      if (rightWall - leftWall > maxWidth) {
+        leftWall = center - maxWidth / 2;
+        rightWall = center + maxWidth / 2;
+      }
 
       leftWall = Math.max(10, Math.min(center - MIN_GAP / 2, leftWall));
       rightWall = Math.max(center + MIN_GAP / 2, Math.min(CANVAS_W - 10, rightWall));
 
-      // Narrow passages at higher distances — gradual difficulty
-      if (i > 50 && rng() < 0.08 + i * 0.0002) {
-        const maxSqueeze = Math.min(25, 10 + i * 0.03);
+      // Narrow squeeze passages — only after segment 150, rare and gentle
+      if (i > 150 && rng() < 0.04 + narrowingProgress * 0.04) {
+        const maxSqueeze = Math.min(15, 5 + narrowingProgress * 12); // much less squeeze (was 25)
         const squeeze = rng() * maxSqueeze;
         leftWall += squeeze;
         rightWall -= squeeze;
@@ -164,18 +177,15 @@ export function renderTreasure(container) {
         gemList.push({ x: gx, y: y + 15, collected: false });
       }
 
-      // Rocks - appear from segment 10 onward, increasing frequency
-      // But ONLY when the passage is wide enough that the player can navigate around them
-      if (i > 10 && rng() < 0.08 + i * 0.0003) {
+      // Rocks - appear from segment 20 onward, only when passage is wide enough
+      if (i > 20 && rng() < 0.06 + narrowingProgress * 0.03) {
         const passageWidth = rightWall - leftWall;
-        // Rock size scales down in narrow passages
-        const maxRockSize = Math.min(22, (passageWidth - MIN_GAP) * 0.4);
-        // Only spawn if there's room for a meaningful rock AND passage around it
-        // Player needs AXO_SIZE + rock.size*0.6 clearance from rock center,
-        // plus AXO_SIZE clearance from wall — so rock must leave enough space on one side
+        // Rock size scales down in narrow passages — need extra room beyond MIN_GAP
+        const maxRockSize = Math.min(20, (passageWidth - MIN_GAP - 20) * 0.35);
+        // Only spawn if there's real room for a rock AND passage around it
         if (maxRockSize >= 8) {
           const rockSize = 8 + rng() * (maxRockSize - 8);
-          const clearance = AXO_SIZE + rockSize * 0.6 + 4; // space player needs to pass
+          const clearance = AXO_SIZE + rockSize * 0.6 + 8; // generous pass space
           // Position rock so player can always pass on at least one side
           const minRockX = leftWall + clearance;
           const maxRockX = rightWall - clearance;
